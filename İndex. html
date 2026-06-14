@@ -1,0 +1,27 @@
+<script>
+    // 1. Sandbox: true olarak güncellendi
+    window.Pi.init({ version: "2.0", sandbox: true });
+    const logDiv = document.getElementById('log');
+
+    function log(msg) { 
+        console.log(msg); // Konsola da yazdır ki F12 ile görebilesin
+        logDiv.innerHTML += "<br>» " + msg; 
+    }
+
+    async function initWorkblock() {
+        log("Yetkilendirme başlatılıyor...");
+        try {
+            // 2. Auth scopes: Gerekli izinleri belirle
+            const auth = await window.Pi.authenticate(['username', 'payments'], () => {
+                log("Doğrulama devam ediyor...");
+            });
+            
+            log("Başarılı! Kullanıcı: " + auth.user.username);
+            // Burada aldığınız auth verisini sunucunuza (backend) göndermeniz gerekecek
+            
+        } catch (err) {
+            log("Hata oluştu: " + err.message);
+            console.error(err);
+        }
+    }
+</script>
